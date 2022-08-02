@@ -69,7 +69,7 @@ LICENSE = """/**
 def to_java_upper(symbol):
     symbol = str(symbol)
     out = ""
-    for i in range(0, len(symbol)):
+    for i in range(len(symbol)):
         c = symbol[i]
         if str.istitle(c) and i is not 0 and not str.istitle(symbol[i - 1]):
             out += "_"
@@ -80,7 +80,7 @@ def to_java_upper(symbol):
 def to_log_lower(symbol):
     symbol = str(symbol)
     out = ""
-    for i in range(0, len(symbol)):
+    for i in range(len(symbol)):
         c = symbol[i]
         if str.istitle(c) and i is not 0 and not str.istitle(symbol[i - 1]):
             out += "-"
@@ -91,7 +91,7 @@ def to_log_lower(symbol):
 root = os.path.dirname(os.path.abspath(__file__))
 
 # write out C & Objective-C headers
-with open(root + "/yoga/YGEnums.h", "w") as f:
+with open(f"{root}/yoga/YGEnums.h", "w") as f:
     f.write(LICENSE)
     f.write("#pragma once\n\n")
     f.write('#include "YGMacros.h"\n\n')
@@ -112,7 +112,7 @@ with open(root + "/yoga/YGEnums.h", "w") as f:
     f.write("YG_EXTERN_C_END\n")
 
 # write out C body for printing
-with open(root + "/yoga/YGEnums.cpp", "w") as f:
+with open(f"{root}/yoga/YGEnums.cpp", "w") as f:
     f.write(LICENSE)
     f.write('#include "YGEnums.h"\n\n')
     for name, values in sorted(ENUMS.items()):
@@ -131,7 +131,7 @@ with open(root + "/yoga/YGEnums.cpp", "w") as f:
 
 # write out java files
 for name, values in sorted(ENUMS.items()):
-    with open(root + "/java/com/facebook/yoga/Yoga%s.java" % name, "w") as f:
+    with open(root + f"/java/com/facebook/yoga/Yoga{name}.java", "w") as f:
         f.write(LICENSE.replace("/**", "/*", 1))
         f.write("package com.facebook.yoga;\n\n")
         f.write("import com.facebook.proguard.annotations.DoNotStrip;\n\n")
@@ -181,7 +181,7 @@ for name, values in sorted(ENUMS.items()):
 
 # write out csharp files
 for name, values in sorted(ENUMS.items()):
-    with open(root + "/csharp/Facebook.Yoga/Yoga%s.cs" % name, "w") as f:
+    with open(root + f"/csharp/Facebook.Yoga/Yoga{name}.cs", "w") as f:
         f.write(LICENSE)
         f.write("namespace Facebook.Yoga\n{\n")
         if isinstance(next(iter(values or []), None), tuple):
@@ -196,7 +196,7 @@ for name, values in sorted(ENUMS.items()):
         f.write("}\n")
 
 # write out javascript file
-with open(root + "/javascript/sources/YGEnums.js", "w") as f:
+with open(f"{root}/javascript/sources/YGEnums.js", "w") as f:
     f.write(LICENSE)
     f.write("module.exports = {\n\n")
     for name, values in sorted(ENUMS.items()):
